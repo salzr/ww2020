@@ -1,0 +1,23 @@
+name: Build, Tag and Push to GCR
+
+on:
+  push:
+    tags:
+    - v*
+
+jobs:
+  build-tag-push:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v1
+    - name: Get version
+      id: get_version_tag
+      run: echo ::set-output name=GIT_TAG::${GITHUB_REF/refs\/tags\//}
+    - name: Build, Tag and Deploy
+      env:
+        VERS_TAG: ${{ steps.get_version_tag.outputs.GIT_TAG }}
+        IMAGE: ${{ format('{0}/{1}/{2}', secrets.GCR_REGISTRY, secrets.GCP_PROJECT, 'salzr/cloudrun-storage') }}
+      run: |
+        make build -e
+        echo ${{ secrets.GCP_SA_KEY }} | base64 -d | docker login -u _json_key --password-stdin https://${{ secrets.GCR_REGISTRY }}
+        docker push $IMAGE

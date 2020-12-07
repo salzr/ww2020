@@ -1,0 +1,6 @@
+.idea
+.terraform*
+www_bkup
+.envrc
+.sw[a-z]
+vendor
