@@ -28,6 +28,11 @@ func main() {
 		c.String(http.StatusOK, version.Version)
 	})
 
+	r.GET("/version", func(c *gin.Context) {
+		c.String(http.StatusOK, version.Version)
+	})
+
 	r.POST("/upload", svc.HandleFileUpload)
+
 	log.Fatal(r.Run())
 }
