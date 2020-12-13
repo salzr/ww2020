@@ -37,10 +37,10 @@ type AuthUserInfo struct {
 	Sub           string `json:"sub"`
 	Hd            string `json:"hd"`
 	Email         string `json:"email"`
-	EmailVerified string `json:"email_verified"`
+	EmailVerified bool   `json:"email_verified"`
 	AtHash        string `json:"at_hash"`
-	Iat           string `json:"iat"`
-	Exp           string `json:"exp"`
+	Iat           int    `json:"iat"`
+	Exp           int    `json:"exp"`
 }
 
 type option func(*Options)
