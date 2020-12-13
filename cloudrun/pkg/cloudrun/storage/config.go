@@ -125,7 +125,7 @@ func hashFileName(s string) (b []byte) {
 	return
 }
 
-func extractUserInfo(c *gin.Context) (*AuthUserInfo, error) {
+func ExtractUserInfo(c *gin.Context) (*AuthUserInfo, error) {
 	str := c.Request.Header.Get(headerUserInfo)
 	data, err := base64.StdEncoding.DecodeString(str)
 	if err != nil {

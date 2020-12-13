@@ -13,7 +13,7 @@ import (
 const stateUploaded = "uploaded"
 
 func (s Service) HandleFileUpload(c *gin.Context) {
-	uinfo, err := extractUserInfo(c)
+	uinfo, err := ExtractUserInfo(c)
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
