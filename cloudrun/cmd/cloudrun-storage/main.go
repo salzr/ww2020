@@ -22,14 +22,25 @@ func init() {
 }
 
 func main() {
-	r := gin.Default()
+	r := gin.New()
+
+	// Middleware for Firebase authentication
+	//middleware, err := ginfirebaseauth.New("", nil)
+	//if err != nil {
+	//	log.Fatal(err)
+	//}
+	//r.Use(middleware.MiddlewareFunc())
 
 	r.GET("/healthz", func(c *gin.Context) {
 		c.String(http.StatusOK, version.Version)
 	})
 
 	r.GET("/version", func(c *gin.Context) {
-		c.String(http.StatusOK, version.Version)
+		c.JSON(http.StatusOK, gin.H{
+			"version": version.Version,
+			"code":    http.StatusOK,
+			"info":    c.Request.Header.Get("X-Endpoint-API-UserInfo"),
+		})
 	})
 
 	r.POST("/upload", svc.HandleFileUpload)

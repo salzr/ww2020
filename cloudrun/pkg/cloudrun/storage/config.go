@@ -84,9 +84,9 @@ func Bootstrap() (*Service, error) {
 		return nil, err
 	}
 
-	if err := svc.validate(bkt); err != nil {
-		return nil, err
-	}
+	// if err := svc.validate(bkt); err != nil {
+	// 	return nil, err
+	// }
 
 	return svc, nil
 }
