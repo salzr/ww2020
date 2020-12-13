@@ -29,7 +29,12 @@ func main() {
 	})
 
 	r.GET("/version", func(c *gin.Context) {
-		uinfo, _ := storage.ExtractUserInfo(c)
+		uinfo, err := storage.ExtractUserInfo(c)
+		if err != nil {
+			c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+			return
+		}
+
 		c.JSON(http.StatusOK, gin.H{
 			"version": version.Version,
 			"uid":     uinfo.Sub,
