@@ -1,7 +1,11 @@
 package storage
 
 import (
+	"crypto/sha1"
+	"encoding/base64"
+	"encoding/json"
 	"fmt"
+	"github.com/gin-gonic/gin"
 	"io/ioutil"
 	"strings"
 
@@ -16,12 +20,27 @@ const (
 	envBucketKey        = "bucket"
 	envProjectKey       = "project_id"
 	envTempDirPrefixKey = "temp_dir_prefix"
+
+	headerUserInfo = "X-Endpoint-API-UserInfo"
 )
 
 type Options struct {
 	Bucket    string
 	ProjectId string
 	TempDir   string
+}
+
+type AuthUserInfo struct {
+	Iss           string `json:"iss"`
+	Azp           string `json:"azp"`
+	Aud           string `json:"aud"`
+	Sub           string `json:"sub"`
+	Hd            string `json:"hd"`
+	Email         string `json:"email"`
+	EmailVerified string `json:"email_verified"`
+	AtHash        string `json:"at_hash"`
+	Iat           string `json:"iat"`
+	Exp           string `json:"exp"`
 }
 
 type option func(*Options)
@@ -84,9 +103,9 @@ func Bootstrap() (*Service, error) {
 		return nil, err
 	}
 
-	// if err := svc.validate(bkt); err != nil {
-	// 	return nil, err
-	// }
+	if err := svc.validate(bkt); err != nil {
+		return nil, err
+	}
 
 	return svc, nil
 }
@@ -97,4 +116,27 @@ func reqEnvString(key string) (string, error) {
 		return val, fmt.Errorf("env=[%s] required", strings.ToUpper(key))
 	}
 	return val, nil
+}
+
+func hashFileName(s string) (b []byte) {
+	h := sha1.New()
+	h.Write([]byte(s))
+	b = h.Sum(nil)
+	return
+}
+
+func extractUserInfo(c *gin.Context) (*AuthUserInfo, error) {
+	str := c.Request.Header.Get(headerUserInfo)
+	data, err := base64.StdEncoding.DecodeString(str)
+	if err != nil {
+		return nil, err
+	}
+
+	uinfo := &AuthUserInfo{}
+	err = json.Unmarshal(data, uinfo)
+	if err != nil {
+		return nil, err
+	}
+
+	return uinfo, nil
 }
