@@ -26,7 +26,7 @@ func (s Service) HandleFileUpload(c *gin.Context) {
 
 	for _, f := range files {
 		// id := uuid.New()
-		fn := string(hashFileName(f.Filename))
+		fn := hashFileName(f.Filename)
 		filedst := filepath.Join(s.opts.TempDir, fn)
 		err := c.SaveUploadedFile(f, filedst)
 		if err != nil {

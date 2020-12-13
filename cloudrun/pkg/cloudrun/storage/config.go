@@ -5,10 +5,10 @@ import (
 	"encoding/base64"
 	"encoding/json"
 	"fmt"
-	"github.com/gin-gonic/gin"
 	"io/ioutil"
 	"strings"
 
+	"github.com/gin-gonic/gin"
 	"github.com/spf13/viper"
 )
 
@@ -118,10 +118,10 @@ func reqEnvString(key string) (string, error) {
 	return val, nil
 }
 
-func hashFileName(s string) (b []byte) {
+func hashFileName(s string) (b string) {
 	h := sha1.New()
 	h.Write([]byte(s))
-	b = h.Sum(nil)
+	b = fmt.Sprintf("%x", h.Sum(nil))
 	return
 }
 
