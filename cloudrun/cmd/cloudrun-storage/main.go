@@ -29,15 +29,17 @@ func main() {
 	})
 
 	r.GET("/version", func(c *gin.Context) {
-		uinfo, err := storage.ExtractUserInfo(c)
-		if err != nil {
-			c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
-			return
-		}
+		//headerUserInfo = "X-Endpoint-API-UserInfo"
+		str := c.Request.Header.Get("X-Endpoint-API-UserInfo")
+		//uinfo, err := storage.ExtractUserInfo(c)
+		//if err != nil {
+		//	c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		//	return
+		//}
 
 		c.JSON(http.StatusOK, gin.H{
 			"version": version.Version,
-			"uid":     uinfo.Sub,
+			"uid":     str,
 			"code":    http.StatusOK,
 		})
 	})
