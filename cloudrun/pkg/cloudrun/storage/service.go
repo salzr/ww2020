@@ -3,20 +3,28 @@ package storage
 import (
 	"context"
 
+	"cloud.google.com/go/firestore"
 	"cloud.google.com/go/storage"
 )
 
 type Service struct {
 	gcsClient *storage.Client
+	fireDb    *firestore.Client
 	opts      *Options
 }
 
 func NewStorageService(opts *Options) (*Service, error) {
-	client, err := storage.NewClient(context.Background())
+	gcsClient, err := storage.NewClient(context.Background())
 	if err != nil {
 		return nil, err
 	}
-	return &Service{gcsClient: client, opts: opts}, nil
+
+	dbClient, err := firestore.NewClient(context.Background(), opts.ProjectId)
+	if err != nil {
+		return nil, err
+	}
+
+	return &Service{gcsClient: gcsClient, fireDb: dbClient, opts: opts}, nil
 }
 
 func (s *Service) validate(name string) error {

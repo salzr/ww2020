@@ -24,10 +24,6 @@ func init() {
 func main() {
 	r := gin.New()
 
-	r.GET("/healthz", func(c *gin.Context) {
-		c.String(http.StatusOK, version.Version)
-	})
-
 	r.GET("/version", func(c *gin.Context) {
 		c.JSON(http.StatusOK, gin.H{
 			"version": version.Version,
