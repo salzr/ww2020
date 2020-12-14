@@ -13,7 +13,7 @@ jobs:
     - name: Get version
       id: get_version_tag
       run: echo ::set-output name=GIT_TAG::${GITHUB_REF/refs\/tags\//}
-    - name: Build, Tag and Deploy
+    - name: Build, Tag and Push
       env:
         VERS_TAG: ${{ steps.get_version_tag.outputs.GIT_TAG }}
         IMAGE: ${{ format('{0}/{1}/{2}', secrets.GCR_REGISTRY, secrets.GCP_PROJECT, 'salzr/cloudrun-storage') }}
