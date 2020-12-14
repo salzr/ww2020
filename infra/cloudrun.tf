@@ -6,7 +6,7 @@ resource "google_cloud_run_service" "storage_api" {
     spec {
       container_concurrency = 10
       containers {
-        image = "gcr.io/winter-workshop/endpoints-runtime-serverless:2.21.0-storage-api-gh6esglzca-uk.a.run.app-2020-12-13r9"
+        image = "gcr.io/winter-workshop/endpoints-runtime-serverless:2.21.0-storage-api-gh6esglzca-uk.a.run.app-2020-12-14r0"
       }
     }
   }
