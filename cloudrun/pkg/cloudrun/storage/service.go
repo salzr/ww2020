@@ -1,8 +1,9 @@
 package storage
 
 import (
-	"cloud.google.com/go/storage"
 	"context"
+
+	"cloud.google.com/go/storage"
 )
 
 type Service struct {

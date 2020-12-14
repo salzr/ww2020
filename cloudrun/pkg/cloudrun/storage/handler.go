@@ -46,8 +46,8 @@ func (s Service) HandleFileUpload(c *gin.Context) {
 			c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 			return
 		}
-
 		uploaded = append(uploaded, f.Filename)
+		sw.Close()
 		file.Close()
 		os.Remove(filedst)
 	}
