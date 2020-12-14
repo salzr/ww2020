@@ -22,8 +22,6 @@ securityDefinitions:
 paths:
   /version:
     get:
-      security:
-        - google_id_token: []
       operationId: version
       summary: Gets the build version of the storage service.
       responses:
