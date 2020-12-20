@@ -9,7 +9,7 @@ import (
 
 type Service struct {
 	gcsClient *storage.Client
-	fireDb    *firestore.Client
+	fsClient  *firestore.Client
 	opts      *Options
 }
 
@@ -24,7 +24,7 @@ func NewStorageService(opts *Options) (*Service, error) {
 		return nil, err
 	}
 
-	return &Service{gcsClient: gcsClient, fireDb: dbClient, opts: opts}, nil
+	return &Service{gcsClient: gcsClient, fsClient: dbClient, opts: opts}, nil
 }
 
 func (s *Service) validate(name string) error {

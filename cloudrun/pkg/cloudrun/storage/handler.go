@@ -47,7 +47,7 @@ func (s Service) HandleFileUpload(c *gin.Context) {
 		}
 		sw.Close()
 
-		if err := so.Persist(s.fireDb); err != nil {
+		if err := so.Persist(s.fsClient); err != nil {
 			c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 			return
 		}

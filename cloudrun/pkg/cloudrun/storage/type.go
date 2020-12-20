@@ -11,10 +11,20 @@ import (
 )
 
 type StorageObject struct {
-	Uid      string `firestore:"uid"`
-	Filename string `firestore:"filename"`
-	Filehash string `firestore:"filehash"`
-	MimeType string `firestore:"mimeType,omitempty"`
+	Uid      string     `firestore:"uid"`
+	Filename string     `firestore:"filename"`
+	Filehash string     `firestore:"filehash"`
+	MimeType string     `firestore:"mimeType,omitempty"`
+	Metadata []Metadata `firestore:"metadata,omitempty"`
+}
+
+type Metadata struct {
+	VisionMeta []VisionMeta `firestore:"visionMeta"`
+}
+
+type VisionMeta struct {
+	Description string  `firestore:"description"`
+	Score       float32 `firestore:"score"`
 }
 
 func NewStorageObject(uid, filename string) *StorageObject {
