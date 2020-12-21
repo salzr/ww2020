@@ -32,3 +32,8 @@ resource "google_project_service" "storage-api" {
   project = data.google_project.winter-workshop.name
   service = google_endpoints_service.storage.service_name
 }
+
+resource "google_project_service" "vision" {
+  project = data.google_project.winter-workshop.name
+  service = "vision.googleapis.com"
+}

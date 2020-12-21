@@ -4,3 +4,6 @@ www_bkup
 .envrc
 .sw[a-z]
 vendor
+.DS_Store
+crash.log
+**/*.zip
